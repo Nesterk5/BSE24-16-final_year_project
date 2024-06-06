@@ -47,8 +47,14 @@ class AddSampleDialog extends StatelessWidget {
                       ),
                     ),
                   ),
-                  icon: const Icon(Icons.cloud_upload),
-                  label: const Text('Upload'),
+                  icon: const Icon(
+                    Icons.cloud_upload,
+                    color: Colors.white,
+                  ),
+                  label: const Text(
+                    'Upload',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
               Flexible(
@@ -78,7 +84,7 @@ class AddSampleDialog extends StatelessWidget {
                     ),
                   ),
                   icon: const Icon(Icons.camera_alt),
-                  label: const Text('Take picture'),
+                  label: const Text('Camera'),
                 ),
               ),
             ],

@@ -8,14 +8,14 @@ class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade300,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 350,
+                height: 300,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.fill,
@@ -29,7 +29,8 @@ class FirstScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      "Ensuring Meat Excellence For All",
+                      "Ensuring Quality Meat For All",
+                      textAlign: TextAlign.center,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                     ),
@@ -39,7 +40,7 @@ class FirstScreen extends StatelessWidget {
                     Text(
                       "Welcome to the future of meat quality assurance! Our innovative Meat Quality Inspection App is designed to revolutionize the way you ensure top-notch standards in every cut.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 15),
                     ),
                   ],
                 ),

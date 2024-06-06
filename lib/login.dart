@@ -65,7 +65,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade300,
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
       // appBar: AppBar(
       //   title: const Text('Login'),
@@ -78,14 +78,17 @@ class _LoginState extends State<Login> {
                 SliverFillRemaining(
                   hasScrollBody: false,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       const Column(
                         children: [
+                          SizedBox(
+                            height: 20,
+                          ),
                           Text(
                             "Welcome Back",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 30),
+                                fontWeight: FontWeight.w400, fontSize: 28),
                           ),
                           SizedBox(
                             height: 10,
@@ -93,44 +96,80 @@ class _LoginState extends State<Login> {
                           Text(
                             "empowering you to elevate your quality control processes",
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(fontSize: 15),
                           ),
                         ],
                       ),
-                      // const SizedBox(height: 20.0),
+                      const SizedBox(height: 50.0),
                       Form(
                         key: _formkey,
                         child: Column(
                           children: [
-                            TextFormField(
-                              controller: _emailController,
-                              decoration: const InputDecoration(
-                                labelText: 'Email',
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
                               ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please enter your email";
-                                }
-                                if (!validateEmail(value)) {
-                                  return "Please enter valid email";
-                                }
-                                return null;
-                              },
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter your email";
+                                  }
+                                  if (!validateEmail(value)) {
+                                    return "Please enter valid email";
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                  hintText: 'Email',
+                                  contentPadding: const EdgeInsets.all(15),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                ),
+                              ),
                             ),
                             const SizedBox(height: 20.0),
-                            TextFormField(
-                              controller: _passwordController,
-                              obscureText: true,
-                              decoration: const InputDecoration(
-                                labelText: 'Password',
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
                               ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please enter your password";
-                                }
-
-                                return null;
-                              },
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  hintText: 'Password',
+                                  contentPadding: const EdgeInsets.all(15),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15)),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               height: 5,
@@ -156,7 +195,6 @@ class _LoginState extends State<Login> {
                           ],
                         ),
                       ),
-
                       Column(
                         children: [
                           ElevatedButton(
@@ -174,7 +212,7 @@ class _LoginState extends State<Login> {
                             },
                             style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.all(10),
-                                fixedSize: const Size(240, 20),
+                                fixedSize: const Size(double.maxFinite, 25),
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10))),

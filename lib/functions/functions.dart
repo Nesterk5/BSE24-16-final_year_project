@@ -4,10 +4,12 @@ import 'dart:convert';
 import 'package:final_year/Resetpassword.dart';
 import 'package:final_year/functions/notifications.dart';
 import 'package:final_year/login.dart';
+import 'package:final_year/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:http/http.dart' as http;
+import 'package:odoo_rpc/odoo_rpc.dart';
 
 class Functions {
   Future<bool> sendEmail(String receiver, String code, String name) async {
@@ -184,5 +186,29 @@ class Functions {
     } catch (e) {
       print(e);
     }
+  }
+
+  static Future process_image() async {
+    var image;
+    final client = OdooClient(DATABASE_URL);
+
+    final session =
+        await client.authenticate(DATABASE_NAME, USERNAME, PASSWORD);
+
+  
+    var response = await client.callKw({
+      'model': 'meat.quality',
+      'method': 'process_image',
+      'args': [
+        'self',
+        {
+          'name': image,
+        }
+      ],
+      'kwargs': {},
+    }).timeout(const Duration(seconds: 120));
+
+    print(response);
+    return response;
   }
 }
