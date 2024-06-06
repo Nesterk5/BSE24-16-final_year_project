@@ -10,6 +10,22 @@ class InspectionHistory extends StatefulWidget {
 class _InspectionHistoryState extends State<InspectionHistory> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return const Scaffold(
+      body: SafeArea(
+          child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 15,
+            ),
+            Center(
+                child: Text(
+              'Inspection History',
+              style: TextStyle(fontSize: 25),
+            ))
+          ],
+        ),
+      )),
+    );
   }
 }

@@ -120,7 +120,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 height: 50,
               ),
               _isLoading
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : Center(
                       child: ElevatedButton(
                         onPressed: () async {

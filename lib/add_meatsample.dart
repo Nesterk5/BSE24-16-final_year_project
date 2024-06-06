@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'image_uploading_screen.dart';
 
 class AddSampleDialog extends StatelessWidget {
   const AddSampleDialog({super.key});
@@ -15,47 +17,69 @@ class AddSampleDialog extends StatelessWidget {
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  // Handle the upload image action here
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  fixedSize: const Size(140, 40),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
+              Flexible(
+                child: ElevatedButton.icon(
+                  onPressed: () async {
+                    final XFile? image = await ImagePicker().pickImage(
+                      source: ImageSource.gallery,
+                    );
+                    if (image != null) {
+                      File imageFile = File(image.path);
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ImageUploadingScreen(imageFile: imageFile),
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: Size(140, 40),
+                    backgroundColor: Colors.green,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10),
+                      ),
                     ),
                   ),
+                  icon: const Icon(Icons.cloud_upload),
+                  label: const Text('Upload'),
                 ),
-                icon: const Icon(Icons.cloud_upload),
-                label: const Text('Upload'),
               ),
-              ElevatedButton.icon(
-                onPressed: () async {
-                  // Handle the take picture action here
-                  // Launch the camera
-                  final XFile? image = await ImagePicker().pickImage(
-                    source: ImageSource.camera,
-                  );
-                  // Handle the captured image
-                  if (image != null) {
-                    // Process the captured image
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  fixedSize: const Size(140, 40),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
+              Flexible(
+                child: ElevatedButton.icon(
+                  onPressed: () async {
+                    final XFile? image = await ImagePicker().pickImage(
+                      source: ImageSource.camera,
+                    );
+                    if (image != null) {
+                      File imageFile = File(image.path);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ImageUploadingScreen(imageFile: imageFile),
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(140, 40),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
                     ),
                   ),
+                  icon: const Icon(Icons.camera_alt),
+                  label: const Text('Take picture'),
                 ),
-                icon: const Icon(Icons.camera_alt),
-                label: const Text('Take Picture'),
               ),
             ],
           ),

@@ -144,6 +144,7 @@ class Functions {
                           email: email,
                         )));
           } else {
+            // ignore: use_build_context_synchronously
             displaymessage(context, 'Verification code expired', false);
           }
         } else {

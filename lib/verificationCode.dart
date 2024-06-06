@@ -134,14 +134,14 @@ class _ForgotPassword2State extends State<ForgotPassword2> {
                           ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 _loading
                     ? Center(
                         child: Text(
-                          'Resend code after ${remainingexptime}',
-                          style: TextStyle(
+                          'Resend code after $remainingexptime',
+                          style: const TextStyle(
                               fontSize: 17, fontWeight: FontWeight.w500),
                         ),
                       )
@@ -159,13 +159,13 @@ class _ForgotPassword2State extends State<ForgotPassword2> {
                               //   snackbar.displaymessage(
                               //       context, 'Otp code resent', true);
                             },
-                            child: Text(
+                            child: const Text(
                               'Resend Code',
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             )),
                       ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 const Text(

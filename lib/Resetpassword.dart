@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:final_year/functions/functions.dart';
 import 'package:flutter/material.dart';
 
 class ResetPassword extends StatefulWidget {
@@ -12,11 +15,42 @@ class _ResetPasswordState extends State<ResetPassword> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-  bool _isLoading = false;
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool isPasswordMatching(String password, String ConfirmPassword) {
     return password == ConfirmPassword;
+  }
+
+  Functions update_password = Functions();
+  bool _isLoading = false;
+  // ignore: unused_field
+  bool _loading = true;
+  String remainingexptime = '';
+  void counterdown() {
+    int remainingtime = 120;
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      if (remainingtime == 0) {
+        timer.cancel();
+
+        setState(() {
+          _loading = false;
+        });
+      } else {
+        remainingtime--;
+        int minutes = remainingtime ~/ 60;
+        int sec = remainingtime % 60;
+        setState(() {
+          remainingexptime = '$minutes:${sec.toString().padLeft(2, '0')}';
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    counterdown();
   }
 
   @override
@@ -78,15 +112,20 @@ class _ResetPasswordState extends State<ResetPassword> {
                     ],
                   )),
               _isLoading
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : Center(
                       child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formkey.currentState!.validate()) {
                               setState(() {
                                 _isLoading = true;
                               });
                               FocusScope.of(context).unfocus();
+                              await update_password.updatePassword(context,
+                                  widget.email, _passwordController.text);
+                              setState(() {
+                                _isLoading = false;
+                              });
                             }
                           },
                           style: ElevatedButton.styleFrom(
