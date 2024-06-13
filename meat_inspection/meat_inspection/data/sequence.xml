@@ -1,0 +1,13 @@
+<odoo>
+    <data noupdate="1">
+        <record id="meat_inspection_seq" model="ir.sequence">
+            <field name="name">Meat Inspection Sequence</field>
+            <field name="code">meat.inspection.sequence</field>
+            <field name="prefix">MQ</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+
+    
+</odoo>

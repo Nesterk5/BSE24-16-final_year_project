@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    
+ <record id="meat_inspection_view_form" model="ir.ui.view">
+    <field name="name">meat.quality.view.form</field>
+    <field name="model">meat.quality</field>
+    <field name="arch" type="xml">
+        <form string="">
+            <sheet>
+                <group>
+                    <field name="name"></field>
+                    <field name="image"  widget="image" ></field>
+                    <field name="date_scanned"></field>
+                    <field name="score"></field>
+                    <field name="class_label"></field>
+                    <field name="comment"></field>
+                </group>
+            </sheet>
+        </form>
+    </field>
+ </record>
+
+ <record id="meat_inspection_tree" model="ir.ui.view">
+    <field name="name">meat.quality.tree</field>
+    <field name="model">meat.quality</field>
+    <field name="arch" type="xml">
+        <tree string="Meat Inspection Tree View" multi_edit="1">
+        
+            <field name="name"/>
+            <field name="date_scanned"/>
+            <field name="score"/>
+            <field name="class_label"/>
+    
+        </tree>
+    </field>
+</record>
+
+<record id="meat_inspection_action" model="ir.actions.act_window">
+    <field name="name">Meat Inspections</field>
+    <field name="res_model">meat.quality</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[]</field>
+    <field name="context">{}</field>
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+            Create a Record
+        </p>
+
+    </field>
+</record>
+
+
+
+<menuitem id="menu_meat_inspection_roor" name="Meat Inspection"  action="meat_inspection_action" groups="" sequence="2" />
+
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_meat_quality,access.meat.quality,model_meat_quality,,1,1,1,1
+
+
+

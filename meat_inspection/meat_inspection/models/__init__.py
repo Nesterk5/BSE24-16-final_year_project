@@ -1,0 +1,1 @@
+from . import meat_quality
