@@ -2,7 +2,7 @@
 
 import 'dart:ui';
 
-import 'package:final_year/Inspectionhistory.dart';
+import 'package:cuberto_bottom_bar/internal/internal.dart';
 import 'package:final_year/add_meatsample.dart';
 import 'package:final_year/login.dart';
 import 'package:final_year/predict.dart';
@@ -22,21 +22,20 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.black,
             foregroundColor: Colors.white,
             child: Icon(Icons.add),
-            onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const TestConnection()))),
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Aidetector()))),
         body: SafeArea(
             child: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height *
-                    0.4, // Set the height for the Stack
+                    0.3, // Set the height for the Stack
                 child: Stack(
                   children: [
                     FractionallySizedBox(
@@ -92,7 +91,7 @@ class _HomeState extends State<Home> {
                 children: [
                   Text(
                     'To Add a new meat sample',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w200),
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.w400),
                   ),
                   SizedBox(height: 10),
                   StepIndicator(), // Add the step indicator here

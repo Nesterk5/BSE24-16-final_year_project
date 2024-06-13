@@ -1,5 +1,9 @@
+import 'package:cuberto_bottom_bar/cuberto_bottom_bar.dart';
 import 'package:final_year/Inspectionhistory.dart';
 import 'package:final_year/add_meatsample.dart';
+import 'package:final_year/predict.dart';
+import 'package:final_year/settings.dart';
+import 'package:final_year/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:final_year/home.dart';
 
@@ -26,25 +30,16 @@ class _BottomBarState extends State<BottomBar> {
     myusername = widget.username;
     _screens = [
       Home(username: myusername),
-      Home(username: myusername),
-      const InspectionHistory()
+      Aidetector(),
+      InspectionHistory(),
+      Settings()
     ];
   }
 
   void _onItemTapped(int index) {
-    if (index == 1) {
-      // Show dialog for "Add Sample"
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AddSampleDialog();
-        },
-      );
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
@@ -52,10 +47,10 @@ class _BottomBarState extends State<BottomBar> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: Colors.white,
           //backgroundColor: Color(0x00000000),
-          selectedItemColor: Colors.amber,
-          unselectedItemColor: Colors.black,
+          selectedItemColor: Colors.black,
+          unselectedItemColor: AppColors.greyColor,
           currentIndex: _selectedIndex,
           type: BottomNavigationBarType.fixed,
           elevation: 10,
@@ -66,9 +61,12 @@ class _BottomBarState extends State<BottomBar> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle_outline), label: 'Add sample'),
+                icon: Icon(Icons.document_scanner_outlined),
+                label: 'Add sample'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.history), label: 'View History'),
+                icon: Icon(Icons.history), label: 'History'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings), label: 'settings'),
           ]),
     );
   }

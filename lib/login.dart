@@ -51,11 +51,13 @@ class _LoginState extends State<Login> {
                         username: username,
                       )));
         } else {
+          print(response);
           // ignore: use_build_context_synchronously
           displaymessage(context, 'Invalid email or password', false);
         }
         ;
       }
+      print(loginUser.body);
     } catch (e) {
       // ignore: avoid_print
       print(e);

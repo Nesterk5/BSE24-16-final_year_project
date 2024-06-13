@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:final_year/functions/functions.dart';
+import 'package:final_year/functions/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_tflite/flutter_tflite.dart';
@@ -220,10 +222,10 @@ class _AidetectorState extends State<Aidetector> {
         Container(
           //height: 40,
           decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(2.0)),
               border: Border.all(color: bordercolor, width: 3)),
           child: const SizedBox(
-            height: 30,
+            height: 20,
             width: 70,
           ),
         ),
@@ -389,7 +391,8 @@ class _AidetectorState extends State<Aidetector> {
             Uint8List croppedImageBytes =
                 Uint8List.fromList(img.encodePng(croppedBytes));
           });
-          print(croppedImageBytes);
+          print('cropped..');
+          print(croppedBytes);
           var recognitions = await Tflite.runModelOnBinary(
               binary:
                   imageToByteListFloat32(croppedBytes, 128, 0, 255), // required
@@ -398,6 +401,10 @@ class _AidetectorState extends State<Aidetector> {
               asynch: true // defaults to true
               );
 
+          // var predictions = await Functions.process_image(
+          //     Uint8List.fromList(img.encodePng(croppedBytes)));
+
+          print(recognitions![0]);
           //   index: 0,
           //   label: "person",
           //   confidence: 0.629
@@ -411,16 +418,16 @@ class _AidetectorState extends State<Aidetector> {
               result["box"][4],
             ],
             'tag': result["tag"],
-            'class': recognitions![0]
+            'class': recognitions[0]
           });
         }
       }
     }
-    print(finalRecognition);
     return finalRecognition;
   }
 
   List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {
+    print('here...');
     if (yoloResults.isEmpty) return [];
 
     double factorX = screen.width / (imageWidth);
@@ -440,7 +447,7 @@ class _AidetectorState extends State<Aidetector> {
         height: (result["box"][3] - result["box"][1]) * factorY,
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
             border: Border.all(
                 color: result['class']['label'] == 'Spoiled'
                     ? Colors.red
@@ -452,7 +459,7 @@ class _AidetectorState extends State<Aidetector> {
                 width: 2.0),
           ),
           child: Text(
-            "${result['class']['label']} ${(result['class']['confidence'] * 100).toStringAsFixed(2)}%",
+            "${result['class']['label']} ${(double.parse(result['class']['confidence'].toString()) * 100).toStringAsFixed(2)}%",
             style: TextStyle(
               background: Paint()..color = colorPick,
               color: Colors.white,
@@ -540,6 +547,7 @@ class _AidetectorState extends State<Aidetector> {
           Uint8List.fromList(img.encodePng(croppedImage));
 
       print(base64Encode(pngBytes));
+      print("saved......");
       return resizedPngBytes;
     } catch (e) {
       print(e);
@@ -592,9 +600,14 @@ class _AidetectorState extends State<Aidetector> {
                               saving = true;
                             });
 
-                            setState(() {
-                              saving = false;
-                            });
+                            Map<dynamic, dynamic> data =
+                                yoloResults[0]['class'];
+                            data['image'] = base64Encode(imagebytes);
+
+                            Functions.createInspectionHistory(data);
+                            displaymessage(
+                                context, 'Image saved Successfully', true);
+                            Navigator.pop(context);
                           },
                           child: saving
                               ? const CircularProgressIndicator(

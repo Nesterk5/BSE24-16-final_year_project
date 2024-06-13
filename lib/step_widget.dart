@@ -20,9 +20,12 @@ class StepWidget extends StatelessWidget {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.green,
                     radius: 20,
-                    child: Text(stepNumber.toString()),
+                    child: Text(
+                      stepNumber.toString(),
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                   if (stepNumber != 4) // Add vertical line if not the last step
                     Container(

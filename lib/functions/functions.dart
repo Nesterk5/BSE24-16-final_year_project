@@ -188,21 +188,20 @@ class Functions {
     }
   }
 
-  static Future process_image() async {
-    var image;
+  static Future process_image(image) async {
+    // var image;
     final client = OdooClient(DATABASE_URL);
 
     final session =
         await client.authenticate(DATABASE_NAME, USERNAME, PASSWORD);
 
-  
     var response = await client.callKw({
       'model': 'meat.quality',
       'method': 'process_image',
       'args': [
         'self',
         {
-          'name': image,
+          'image': base64Encode(image),
         }
       ],
       'kwargs': {},
@@ -210,5 +209,71 @@ class Functions {
 
     print(response);
     return response;
+  }
+
+  static Future<List<dynamic>> getHistory(user) async {
+    final client = OdooClient(DATABASE_URL);
+
+    final session =
+        await client.authenticate(DATABASE_NAME, USERNAME, PASSWORD);
+
+    var response = await client.callKw(
+      {
+        'model': 'meat.quality',
+        'method': 'search_read',
+        'args': [],
+        'kwargs': {
+          'domain': [
+            // ['user_id', '=', user.id],
+          ],
+          'fields': [
+            'name',
+            'score',
+            'date_scanned',
+            'class_label',
+            'comment',
+            'image',
+          ],
+        }
+      },
+    ).timeout(const Duration(seconds: 120));
+    print('**********************************');
+
+    print(response);
+    return response;
+  }
+
+  static Future<dynamic> createInspectionHistory(
+      Map<dynamic, dynamic> data) async {
+    final client = OdooClient(DATABASE_URL);
+
+    final session =
+        await client.authenticate(DATABASE_NAME, USERNAME, PASSWORD);
+
+    var response = await client.callKw({
+      'model': 'meat.quality',
+      'method': 'create',
+      'args': [
+        {
+          // 'name': data['name'],
+          'score': data['confidence'],
+          'class_label': formatLabel(data['label']),
+          'image': data['image'],
+        }
+      ],
+      'kwargs': {},
+    }).timeout(const Duration(seconds: 120));
+
+    print(response);
+    print("Saved......");
+    return response;
+  }
+
+  static String formatLabel(String input) {
+    String lowercaseString = input.toLowerCase();
+
+    String result = lowercaseString.replaceAll('-', '_');
+
+    return result;
   }
 }

@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:final_year/bottombar.dart';
 import 'package:final_year/home.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -50,7 +51,7 @@ class _LoginState extends State<Signup> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      Home(username: _usernameController.text)));
+                      BottomBar(index: 0, username: _usernameController.text)));
         } else {
           // print('jjjj');
         }
