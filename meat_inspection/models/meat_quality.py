@@ -6,9 +6,7 @@ from io import BytesIO
 import os
 import base64
 
-
-
-CLASS_LABELS = ['spoiled', 'half-fresh', 'fresh']
+CLASS_LABELS = ['Spoiled', 'Half-fresh', 'Fresh']
 
 class MeatQuality(models.Model):
     _name = "meat.quality"
@@ -70,7 +68,7 @@ class MeatQuality(models.Model):
         image = False
         binary_data = False
         img_str = False
-        model_path = f'{os.path.dirname(__file__)}/ml/yolov5.tflite'
+        model_path = f'{os.path.dirname(__file__)}/ml/model.tflite'
 
         if 'image' in input_data and input_data['image']:
             image = input_data['image']
@@ -96,7 +94,7 @@ class MeatQuality(models.Model):
         image = Image.open(BytesIO(image_path))
 
         # Convert image to byte array
-        input_data = self.image_to_byte_array(image, 640, 0, 255)
+        input_data = self.image_to_byte_array(image, 128, 0, 255)
 
         # Load the TFLite model
         interpreter = tf.lite.Interpreter(model_path=model_path)
@@ -115,9 +113,9 @@ class MeatQuality(models.Model):
         # Get the output results
         output_data = interpreter.get_tensor(output_details[0]['index'])
 
-        print('')
-        print('',output_data.shape[1])
-        print('')
+        # print('')
+        # print('',output_data.shape[1])
+        # print('')
 
         # Process the output results
         recognitions = self.process_output(output_data, num_results, threshold)
@@ -128,15 +126,18 @@ class MeatQuality(models.Model):
     def process_output(self,output_data, num_results, threshold):
         results = []
         for i in range(output_data.shape[1]):
-            confidence = output_data[0, i, 4]  # Confidence score
-            if confidence > threshold:
-                class_index = np.argmax(output_data[0, i, 5:])  # Class with highest probability
-                class_confidence = output_data[0, i, 5 + class_index]
-                results.append({
-                    "index": class_index,
-                    "label": CLASS_LABELS[class_index],  # Replace with actual class labels if available
-                    "confidence": class_confidence
-                })
+            print('')
+            print('',output_data)
+            print('')
+            prediction = output_data[0]  # Confidence score
+            
+            class_index = np.argmax(prediction)  # Class with highest probability
+            class_confidence = prediction[class_index]
+            results.append({
+                "index": class_index,
+                "label": CLASS_LABELS[class_index],  # Replace with actual class labels if available
+                "confidence": class_confidence
+            })
 
         # Sort results by confidence score in descending order and return top num_results
         results = sorted(results, key=lambda x: x['confidence'], reverse=True)[:num_results]
