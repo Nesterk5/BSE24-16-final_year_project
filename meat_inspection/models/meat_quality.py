@@ -5,7 +5,6 @@ import numpy as np
 from io import BytesIO
 import os
 import base64
-import cv2
 
 CLASS_LABELS = ['Spoiled', 'Half-fresh', 'Fresh']
 
@@ -73,9 +72,9 @@ class MeatQuality(models.Model):
 
         if 'image' in input_data and input_data['image']:
             image = input_data['image']
-            # image_path = base64.b64decode(image)
+            image_path = base64.b64decode(image)
 
-            recognitions = self.run_model_on_image(image, model_path)
+            recognitions = self.run_model_on_image(image_path, model_path)
 
             for recognition in recognitions:
                 print(f"Label: {recognition['label']}, Confidence: {recognition['confidence']}")
@@ -83,34 +82,18 @@ class MeatQuality(models.Model):
             return recognitions[0]
 
 
-    def image_to_byte_array(self,image, size: int, mean: float, std: float) -> np.ndarray:
-        # image = np.resize((size, size))
-        image = img_resized = cv2.resize(image, (128,128))
+    def image_to_byte_array(self,image: Image, size: int, mean: float, std: float) -> np.ndarray:
+        image = image.resize((size, size))
         img_array = np.array(image).astype(np.float32)
         img_array = (img_array - mean) / std
         img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
         return img_array
 
 
-    def read_image_from_base64(self,base64_string):
-        # Remove the header if it's included in the base64 string
-        if base64_string.startswith('data:image'):
-            base64_string = base64_string.split(';base64,')[-1]
-
-        # Decode base64 string into bytes
-        image_data = base64.b64decode(base64_string)
-
-        # Convert the bytes data to a numpy array
-        nparr = np.frombuffer(image_data, np.uint8)
-
-        # Decode the numpy array into an image using OpenCV
-        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-
-        return img
 
     def run_model_on_image(self,image_path, model_path, num_results=6, threshold=0.05):
         # Load image
-        image = self.read_image_from_base64(image_path)
+        image = Image.open(BytesIO(image_path))
 
         input_data = self.image_to_byte_array(image, 128, 0, 255)
 
