@@ -1,9 +1,9 @@
 import 'dart:convert';
 //import 'dart:ffi';
 
-import 'package:final_year/Resetpassword.dart';
+import 'package:final_year/screens/Resetpassword.dart';
 import 'package:final_year/functions/notifications.dart';
-import 'package:final_year/login.dart';
+import 'package:final_year/features/Auth/presentation/pages/login.dart';
 import 'package:final_year/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:mailer/mailer.dart';
@@ -207,7 +207,7 @@ class Functions {
       'kwargs': {},
     }).timeout(const Duration(seconds: 120));
 
-    print(response);
+    // print(response);
     return response;
   }
 
@@ -237,9 +237,9 @@ class Functions {
         }
       },
     ).timeout(const Duration(seconds: 120));
-    print('**********************************');
+    // print('**********************************');
 
-    print(response);
+    // print(response);
     return response;
   }
 

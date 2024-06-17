@@ -1,18 +1,27 @@
-//import 'package:final_year/home.dart';
+//import 'package:final_year/screens/home.dart';
 import 'package:camera/camera.dart';
-import 'package:final_year/Landingpage.dart';
-import 'package:final_year/bottombar.dart';
-import 'package:final_year/home.dart';
-//import 'package:final_year/login.dart';
+import 'package:final_year/features/Auth/presentation/bloc/auth_bloc.dart';
+import 'package:final_year/features/Auth/presentation/pages/login.dart';
+import 'package:final_year/screens/Landingpage.dart';
+import 'package:final_year/screens/bottombar.dart';
+import 'package:final_year/screens/home.dart';
+//import 'package:final_year/screens/login.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:final_year/dependency_injector.dart' as di;
 //import 'package:google_fonts/google_fonts.dart';
 
 late List<CameraDescription> cameras;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
+  await di.init();
 
-  runApp(const MyApp());
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider<AuthBloc>(
+      create: (context) => di.sl<AuthBloc>(),
+    ),
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -48,10 +57,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
           scaffoldBackgroundColor: Colors.grey.shade300),
-      home: BottomBar(
-        index: 0,
-        username: 'Cal',
-      ),
+      home: const Login(),
     );
   }
 }
